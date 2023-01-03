@@ -2,12 +2,21 @@
 ## Symfony Server
 ## --------------
 ##
-
 start: ## Start symfony's server
 	symfony server:start -d
 
 stop: ## Stop symfony's server
 	symfony server:stop
+
+##
+## PHP Unit
+## --------------
+##
+test: ## Run the tests
+	vendor/bin/phpunit
+
+coverage: ## Test Coverage
+	vendor/bin/phpunit --coverage-html web/test-coverage
 
 .DEFAULT_GOAL := help
 help:
