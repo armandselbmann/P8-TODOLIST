@@ -17,3 +17,12 @@
 .idea
 .php_cs.cache
 phpstan.neon.dist
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###

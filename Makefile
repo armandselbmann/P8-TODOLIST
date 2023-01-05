@@ -20,13 +20,13 @@ coverage: ## Test Coverage
 ## PHP CodeSniffer
 ## ---------------
 snifDefault: ## Analyse DefaultController
-	./vendor/bin/phpcs ./src/AppBundle/Controller/DefaultController.php
+	./vendor/bin/phpcs ./src/Controller/DefaultController.php
 snifSecurity: ## Analyse SecurityController
-	./vendor/bin/phpcs ./src/AppBundle/Controller/SecurityController.php
+	./vendor/bin/phpcs ./src/Controller/SecurityController.php
 snifTask: ## Analyse TaskController
-	./vendor/bin/phpcs ./src/AppBundle/Controller/TaskController.php
+	./vendor/bin/phpcs ./src/Controller/TaskController.php
 snifUser: ## Analyse UserController
-	./vendor/bin/phpcs ./src/AppBundle/Controller/UserController.php
+	./vendor/bin/phpcs ./src/Controller/UserController.php
 
 ##
 ## PHP Stan
