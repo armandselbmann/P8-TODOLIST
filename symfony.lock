@@ -12,16 +12,17 @@
         ]
     },
     "doctrine/doctrine-bundle": {
-        "version": "1.10",
+        "version": "2.7",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "1.6",
-            "ref": "c6f8fe772c75e1ba62589367fd21abd0802a5c63"
+            "version": "2.3",
+            "ref": "b8ddff356705ad8e704ea75b6872ce89a15d614d"
         },
         "files": [
             "config/packages/doctrine.yaml",
             "config/packages/prod/doctrine.yaml",
+            "config/packages/test/doctrine.yaml",
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
         ]
