@@ -41,6 +41,14 @@ fixer: ## Verifies and enforces PSR-1 and PSR-2 standards
 	php php-cs-fixer.phar fix src web
 
 ##
+## SQL Query
+## ---------
+allusers: ## Select * FROM user
+	bin/console dbal:run-sql 'SELECT * FROM user'
+alltasks: ## Select * FROM task
+	bin/console dbal:run-sql 'SELECT * FROM task'
+
+##
 
 .DEFAULT_GOAL := help
 help:
