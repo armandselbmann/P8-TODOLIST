@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: db_docker_symfony
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - dev
+
+  php-fpm:
+    build: ./docker/php/
+    ports:
+      - '9000:9000'
+    volumes:
+      - ./:/var/www/html/
+
+    depends_on:
+      - mysql
+    networks:
+      - dev
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - '8080:80'
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./public:/var/www/html/public
+    depends_on:
+      - php-fpm
+      - mysql
+    networks:
+      - dev
+
+
+volumes:
+  db-data:
+
+networks:
+  dev:

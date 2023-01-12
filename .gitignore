@@ -1,6 +1,5 @@
 /app/config/parameters.yml
 /build/
-/phpunit.xml
 /var/*
 !/var/cache
 /var/cache/*
@@ -15,14 +14,18 @@
 /vendor/
 /web/bundles/
 .idea
-.php_cs.cache
-phpstan.neon.dist
+
+###> phpunit ###
+/public/test-coverage
+.phpunit.cache
+/phpunit.xml
+###< phpunit ###
 
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
 /.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
-/vendor/
 ###< symfony/framework-bundle ###
