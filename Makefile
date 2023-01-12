@@ -1,52 +1,70 @@
-##
-## Symfony Server
-## --------------
-start: ## Start symfony's server
-	symfony server:start -d
+PHPUSERCONNECT = docker exec -it --user www-data $$(docker container ps -q --filter "name=php")
 
-stop: ## Stop symfony's server
-	symfony server:stop
+##
+## Set up application
+## --------------------
+install: up composerinstall dbinit phpunitconfig
+
+composerinstall: ## Composer install
+	$(PHPUSERCONNECT) composer install
+
+dbinit: ## Init database and fixtures persist
+	$(PHPUSERCONNECT) bin/console doctrine:database:create
+	$(PHPUSERCONNECT) bin/console doctrine:schema:update -f
+	$(PHPUSERCONNECT) bin/console doctrine:fixtures:load --no-interaction
+
+##
+## Docker
+## --------------------
+reset: down up
+up: ## Start docker-compose
+	docker-compose -f docker-compose.yml up --build -d
+down: ## Stop docker-compose
+	docker-compose -f docker-compose.yml down --remove-orphans
+ps: ## List actif containers
+	docker ps
+userphp: ## Connect on actif php container with www-data user
+	docker exec -it --user www-data $$(docker container ps -q --filter "name=php") bash
+rootphp:## Connect on actif php container with root user
+	docker exec -it $$(docker container ps -q --filter "name=php") bash
 
 ##
 ## PHP Unit
-## --------------
+## --------------------
+phpunitconfig: ## Config phpunit before generate code coverage or tests
+	$(PHPUSERCONNECT) vendor/bin/phpunit --generate-configuration
 test: ## Run the tests
-	vendor/bin/phpunit
-
+	$(PHPUSERCONNECT) vendor/bin/phpunit
 coverage: ## Test Coverage
-	vendor/bin/phpunit --coverage-html web/test-coverage
+	$(PHPUSERCONNECT) vendor/bin/phpunit --coverage-html public/test-coverage
 
 ##
 ## PHP CodeSniffer
-## ---------------
-snifDefault: ## Analyse DefaultController
-	./vendor/bin/phpcs ./src/Controller/DefaultController.php
-snifSecurity: ## Analyse SecurityController
-	./vendor/bin/phpcs ./src/Controller/SecurityController.php
-snifTask: ## Analyse TaskController
-	./vendor/bin/phpcs ./src/Controller/TaskController.php
-snifUser: ## Analyse UserController
-	./vendor/bin/phpcs ./src/Controller/UserController.php
+## --------------------
+sniffer:
+	$(PHPUSERCONNECT) vendor/bin/phpcs src/Controller
+sniffer_default: ## Analyse DefaultController
+	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/DefaultController.php
+sniffer_security: ## Analyse SecurityController
+	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/SecurityController.php
+sniffer_task: ## Analyse TaskController
+	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/TaskController.php
+sniffer_user: ## Analyse UserController
+	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/UserController.php
 
 ##
 ## PHP Stan
-## --------
+## --------------------
 stan: ## Make a PHP Stan analyse level 8
-	vendor/bin/phpstan analyse
-
-##
-## PHP Cs Fixer
-## ------------
-fixer: ## Verifies and enforces PSR-1 and PSR-2 standards
-	php php-cs-fixer.phar fix src web
+	$(PHPUSERCONNECT) vendor/bin/phpstan analyse src
 
 ##
 ## SQL Query
-## ---------
+## --------------------
 allusers: ## Select * FROM user
-	bin/console dbal:run-sql 'SELECT * FROM user'
+	$(PHPUSERCONNECT) bin/console dbal:run-sql 'SELECT * FROM user'
 alltasks: ## Select * FROM task
-	bin/console dbal:run-sql 'SELECT * FROM task'
+	$(PHPUSERCONNECT) bin/console dbal:run-sql 'SELECT * FROM task'
 
 ##
 
