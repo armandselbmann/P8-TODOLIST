@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Commentaire
+echo "\033[36mDo you want to push ? [y/n]\033[0m"
+exec < /dev/tty
+read RUN_PUSH
+if [ "$RUN_PUSH" != "y" ]
+then
+  exit 1
+fi
+exit 0
