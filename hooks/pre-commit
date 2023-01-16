@@ -1,0 +1,31 @@
+#!/bin/sh
+
+ERROR=0
+
+# Commentaire
+echo "\033[36mLancer une analyse de PHP Stan ? [y/n]\033[0m"
+exec < /dev/tty
+read RUN_PHP_STAN
+if [ "$RUN_PHP_STAN" != "n" ]
+then
+  make stan
+fi
+
+# Commentaire
+echo "\033[36mLancer une analyse de Code Sniffer ? [y/n]\033[0m"
+exec < /dev/tty
+read RUN_SNIFFER
+if [ "$RUN_SNIFFER" != "n" ]
+then
+  make sniffer
+fi
+
+# Commentaire
+echo "\033[36mDo you want to commit files ? [y/n]\033[0m"
+exec < /dev/tty
+read RUN_COMMIT
+if [ "$RUN_COMMIT" != "n" ]
+then
+  ERROR=1
+fi
+exit $ERROR
