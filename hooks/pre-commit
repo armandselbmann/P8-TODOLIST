@@ -29,4 +29,3 @@ then
   ERROR=1
 fi
 exit $ERROR
-
