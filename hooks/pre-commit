@@ -1,7 +1,5 @@
 #!/bin/sh
 
-ERROR=0
-
 # Commentaire
 echo "\033[36mLancer une analyse de PHP Stan ? [y/n]\033[0m"
 exec < /dev/tty
@@ -24,8 +22,8 @@ fi
 echo "\033[36mDo you want to commit files ? [y/n]\033[0m"
 exec < /dev/tty
 read RUN_COMMIT
-if [ "$RUN_COMMIT" != "n" ]
+if [ "$RUN_COMMIT" != "y" ]
 then
-  ERROR=1
+  exit 1
 fi
-exit $ERROR
+exit 0
