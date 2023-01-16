@@ -1,6 +1,15 @@
 #!/bin/sh
 
 # Commentaire
+echo "\033[36mLancer une analyse de PHP Unit ? [y/n]\033[0m"
+exec < /dev/tty
+read RUN_PHP_UNIT
+if [ "$RUN_PHP_UNIT" != "n" ]
+then
+  make test
+fi
+
+# Commentaire
 echo "\033[36mLancer une analyse de PHP Stan ? [y/n]\033[0m"
 exec < /dev/tty
 read RUN_PHP_STAN
