@@ -3,7 +3,7 @@ PHPUSERCONNECT = docker exec -it --user www-data $$(docker container ps -q --fil
 ##
 ## Set up application
 ## --------------------
-install: up composerinstall dbinit phpunitconfig
+install: up composerinstall dbinit phpunitconfig githooksconfig
 
 composerinstall: ## Composer install
 	$(PHPUSERCONNECT) composer install
@@ -12,6 +12,9 @@ dbinit: ## Init database and fixtures persist
 	$(PHPUSERCONNECT) bin/console doctrine:database:create
 	$(PHPUSERCONNECT) bin/console doctrine:schema:update -f
 	$(PHPUSERCONNECT) bin/console doctrine:fixtures:load --no-interaction
+
+githooksconfig: ## Init hooks folder
+	git config core.hooksPath "./hooks"
 
 ##
 ## Docker
@@ -34,7 +37,7 @@ rootphp:## Connect on actif php container with root user
 phpunitconfig: ## Config phpunit before generate code coverage or tests
 	$(PHPUSERCONNECT) vendor/bin/phpunit --generate-configuration
 test: ## Run the tests
-	$(PHPUSERCONNECT) vendor/bin/phpunit
+	$(PHPUSERCONNECT) vendor/bin/phpunit tests --color --testdox
 coverage: ## Test Coverage
 	$(PHPUSERCONNECT) vendor/bin/phpunit --coverage-html public/test-coverage
 
