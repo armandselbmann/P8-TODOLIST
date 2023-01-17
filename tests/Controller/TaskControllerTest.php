@@ -3,7 +3,6 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Task;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,12 +11,18 @@ class TaskControllerTest extends WebTestCase
 {
     private KernelBrowser|null $client = null;
 
+    /**
+     * @return void
+     */
     public function setUp(): void
     {
         $this->client = static::createClient();
         $this->client->followRedirects();
     }
 
+    /**
+     * @return void
+     */
     public function testDisplayTaskList(): void
     {
         $this->client->request('GET', '/tasks');
@@ -27,6 +32,9 @@ class TaskControllerTest extends WebTestCase
         $this->assertSelectorExists('.btn', 'Créer une tâche');
     }
 
+    /**
+     * @return void
+     */
     public function testBackToTaskListFromTaskCreate()
     {
         $crawler = $this->client->request('GET', '/tasks/create');
@@ -36,6 +44,9 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
+    /**
+     * @return void
+     */
     public function testTaskCreationWorked(): void
     {
         $crawler = $this->client->request('GET', '/tasks/create');
@@ -46,9 +57,15 @@ class TaskControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('div.alert.alert-success', 'La tâche a été bien été ajoutée');
+        $this->assertSelectorTextContains(
+            'div.alert.alert-success',
+            'La tâche a été bien été ajoutée'
+        );
     }
 
+    /**
+     * @return void
+     */
     public function testTaskEditIsDone(): void
     {
         $crawler = $this->client->request('GET', '/tasks/48/edit');
@@ -59,9 +76,15 @@ class TaskControllerTest extends WebTestCase
         $this->client->submit($form);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('div.alert.alert-success', 'Superbe ! La tâche a bien été modifiée.');
+        $this->assertSelectorTextContains(
+            'div.alert.alert-success',
+            'Superbe ! La tâche a bien été modifiée.'
+        );
     }
 
+    /**
+     * @return void
+     */
     public function testTaskToogleIsDone(): void
     {
         $taskRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository(Task::class);
