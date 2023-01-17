@@ -35,7 +35,7 @@ class TaskControllerTest extends WebTestCase
     /**
      * @return void
      */
-    public function testBackToTaskListFromTaskCreate()
+    public function testBackToTaskListFromTaskCreate(): void
     {
         $crawler = $this->client->request('GET', '/tasks/create');
         $link = $crawler->selectLink('Retour à la liste des tâches')->link();

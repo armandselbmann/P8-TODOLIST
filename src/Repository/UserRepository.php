@@ -54,7 +54,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         PasswordAuthenticatedUserInterface $user,
         string $newHashedPassword
     ): void {
-
         if (!$user instanceof User) {
             throw new UnsupportedUserException(
                 sprintf('Instances of "%s" are not supported.', \get_class($user))
@@ -65,5 +64,4 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->add($user, true);
     }
-
 }

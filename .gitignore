@@ -31,3 +31,8 @@
 /public/bundles/
 /var/
 ###< symfony/framework-bundle ###
+
+###> phpcsfixer ###
+.php-cs-fixer.cache
+tools
+###< phpunit ###

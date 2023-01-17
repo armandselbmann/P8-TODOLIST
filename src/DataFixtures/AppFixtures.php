@@ -14,8 +14,7 @@ class AppFixtures extends Fixture
 
     public function __construct(
         UserPasswordHasherInterface $userPasswordHasher,
-    )
-    {
+    ) {
         $this->userPasswordHasher = $userPasswordHasher;
     }
 
@@ -26,20 +25,20 @@ class AppFixtures extends Fixture
             $task = new Task();
             $task->setTitle('task '.$i);
             $task->setContent('content '.$i);
-            $task->toggle(rand(0,1));
+            $task->toggle(rand(0, 1));
             $manager->persist($task);
         }
 
         // create 2 users
         $user = new User();
         $user->setUsername('lolo');
-        $user->setPassword($this->userPasswordHasher->hashPassword($user,'lolo'));
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'lolo'));
         $user->setEmail('lolo@gmail.com');
         $manager->persist($user);
 
         $user = new User();
         $user->setUsername('jane');
-        $user->setPassword($this->userPasswordHasher->hashPassword($user,'jane'));
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'jane'));
         $user->setEmail('jane@gmail.com');
         $manager->persist($user);
 

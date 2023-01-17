@@ -72,9 +72,10 @@ class TaskController extends AbstractController
      * @return RedirectResponse|Response
      */
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
-    public function editAction(Task $task, Request $request)
-    : RedirectResponse|Response
-    {
+    public function editAction(
+        Task $task,
+        Request $request
+    ): RedirectResponse|Response {
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
@@ -85,7 +86,8 @@ class TaskController extends AbstractController
         }
 
         return $this->render(
-            'task/edit.html.twig', [
+            'task/edit.html.twig',
+            [
             'form' => $form->createView(),
             'task' => $task,]
         );
