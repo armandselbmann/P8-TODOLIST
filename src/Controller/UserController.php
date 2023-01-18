@@ -15,26 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
-    /**
-     * @var UserPasswordHasherInterface
-     */
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $entityManager;
-
-    /**
-     * @param UserPasswordHasherInterface $userPasswordHasher
-     * @param EntityManagerInterface      $entityManager
-     */
     public function __construct(
-        UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
-    ) {
-        $this->userPasswordHasher = $userPasswordHasher;
-        $this->entityManager = $entityManager;
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly EntityManagerInterface $entityManager
+    )
+    {
+
     }
 
     /**
@@ -81,12 +67,13 @@ class UserController extends AbstractController
 
         return $this->render(
             'user/create.html.twig',
-            ['form' => $form->createView()]
+            ['form' => $form]
         );
     }
 
     /**
-     * @param User    $user
+     *
+     * @param User $user
      * @param Request $request
      *
      * @return RedirectResponse|Response
@@ -116,7 +103,7 @@ class UserController extends AbstractController
 
         return $this->render(
             'user/edit.html.twig',
-            ['form' => $form->createView(), 'user' => $user]
+            ['form' => $form, 'user' => $user]
         );
     }
 }

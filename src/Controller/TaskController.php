@@ -13,17 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TaskController extends AbstractController
 {
-    /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $entityManager;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -61,7 +52,7 @@ class TaskController extends AbstractController
 
         return $this->render(
             'task/create.html.twig',
-            ['form' => $form->createView()]
+            ['form' => $form]
         );
     }
 
@@ -88,7 +79,7 @@ class TaskController extends AbstractController
         return $this->render(
             'task/edit.html.twig',
             [
-            'form' => $form->createView(),
+            'form' => $form,
             'task' => $task,]
         );
     }

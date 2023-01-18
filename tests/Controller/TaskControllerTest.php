@@ -68,7 +68,7 @@ class TaskControllerTest extends WebTestCase
      */
     public function testTaskEditIsDone(): void
     {
-        $crawler = $this->client->request('GET', '/tasks/48/edit');
+        $crawler = $this->client->request('GET', '/tasks/1/edit');
 
         $form = $crawler->selectButton('Modifier')->form();
         $form['task[title]'] = 'Tâche pour un test de modification';
@@ -88,7 +88,7 @@ class TaskControllerTest extends WebTestCase
     public function testTaskToogleIsDone(): void
     {
         $taskRepository = $this->client->getContainer()->get('doctrine.orm.entity_manager')->getRepository(Task::class);
-        $task = $taskRepository->find(48);
+        $task = $taskRepository->find(1);
         $taskId = $task->getId();
         $taskStatusBefore = $task->isDone();
         $this->client->request('GET', "/tasks/$taskId/toggle");
