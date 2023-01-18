@@ -35,4 +35,6 @@
 ###> phpcsfixer ###
 .php-cs-fixer.cache
 tools
-###< phpunit ###
+###< phpcsfixer ###
+
+rector.php
