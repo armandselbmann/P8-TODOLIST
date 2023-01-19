@@ -14,10 +14,12 @@
 /vendor/
 /web/bundles/
 .idea
+.DS_Store
 
 ###> phpunit ###
 /public/test-coverage
 .phpunit.cache
+.phpunit.result.cache
 /phpunit.xml
 ###< phpunit ###
 
@@ -29,3 +31,10 @@
 /public/bundles/
 /var/
 ###< symfony/framework-bundle ###
+
+###> phpcsfixer ###
+.php-cs-fixer.cache
+tools
+###< phpcsfixer ###
+
+rector.php

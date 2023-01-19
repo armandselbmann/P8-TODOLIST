@@ -3,11 +3,17 @@
 namespace App\DataFixtures;
 
 use App\Entity\Task;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(private readonly UserPasswordHasherInterface $userPasswordHasher)
+    {
+    }
+
     public function load(ObjectManager $manager): void
     {
         // create 40 tasks
@@ -15,10 +21,23 @@ class AppFixtures extends Fixture
             $task = new Task();
             $task->setTitle('task '.$i);
             $task->setContent('content '.$i);
-            $task->toggle(rand(0,1));
+            $task->toggle(rand(0, 1));
             $manager->persist($task);
         }
-        $manager->flush();
+
+        // create 2 users
+        $user = new User();
+        $user->setUsername('lolo');
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'lolo'));
+        $user->setEmail('lolo@gmail.com');
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setUsername('jane');
+        $user->setPassword($this->userPasswordHasher->hashPassword($user, 'jane'));
+        $user->setEmail('jane@gmail.com');
+        $manager->persist($user);
+
         $manager->flush();
     }
 }
