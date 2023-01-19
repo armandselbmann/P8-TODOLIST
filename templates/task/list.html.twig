@@ -3,7 +3,15 @@
 {% block header_img %}<img class="slide-image" src="{{ asset('img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
 
 {% block body %}
-    <a href="{{ path('task_create') }}" class="btn btn-info pull-right">Créer une tâche</a>
+    {% if app.request.requestUri == '/tasks' %}
+        <h2>Liste de l'ensemble de vos tâches</h2>
+    {% endif %}
+    {% if app.request.requestUri == '/tasks/todo' %}
+        <h2>Liste de l'ensemble de vos tâches à faire</h2>
+    {% endif %}
+    {% if app.request.requestUri == '/tasks/done' %}
+        <h2>Liste de l'ensemble de vos tâches terminées</h2>
+    {% endif %}
     <div class="row">
         {% for task in tasks %}
         <div class="col-sm-4 col-lg-4 col-md-4">
@@ -29,8 +37,11 @@
         </div>
         {% else %}
             <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+                Il n'y a pas encore de tâches dans cette section.
             </div>
         {% endfor %}
+    </div>
+    <div class="row text-center">
+        <a href="{{ path('task_create') }}" class="btn btn-warning">Créer une tâche</a>
     </div>
 {% endblock %}
