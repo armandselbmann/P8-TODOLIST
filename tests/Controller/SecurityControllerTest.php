@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SecurityControllerTest extends WebTestCase
@@ -16,12 +15,11 @@ class SecurityControllerTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->client->followRedirects();
-        $this->urlGenerator = $this->client->getContainer()->get('router.default');
     }
 
     public function testDisplayLogin(): void
     {
-        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('login'));
+        $this->client->request('GET', '/login');
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorExists('input[id="username"]');
