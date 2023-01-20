@@ -28,7 +28,7 @@ class AppFixtures extends Fixture
         $user2->setUsername('jane');
         $user2->setPassword($this->userPasswordHasher->hashPassword($user2, 'jane'));
         $user2->setEmail('jane@gmail.com');
-        $user2->setRoles(['ROLE_USER']);
+        $user2->setRoles(['ROLE_ADMIN']);
         $manager->persist($user2);
 
         // create 40 tasks

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,11 @@ class UserControllerTest extends WebTestCase
     public function setUp(): void
     {
         $this->client = static::createClient();
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testUser = $userRepository->findOneByUsername('jane');
+        // simulate $testUser being logged in
+        $this->client->loginUser($testUser);
+
         $this->client->followRedirects();
     }
 
@@ -31,6 +37,7 @@ class UserControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Ajouter')->form();
         $form['user[username]'] = 'John';
+        $form['user[roles]'] = "ROLE_USER";
         $form['user[password][first]'] = '1234';
         $form['user[password][second]'] = '1234';
         $form['user[email]'] = 'john@doe.com';
@@ -47,6 +54,7 @@ class UserControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Modifier')->form();
         $form['user[username]'] = 'lolo';
+        $form['user[roles]'] = "ROLE_USER";
         $form['user[password][first]'] = 'lolo';
         $form['user[password][second]'] = 'lolo';
         $form['user[email]'] = 'lolo@izeron.fr';
