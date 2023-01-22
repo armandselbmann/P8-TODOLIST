@@ -109,4 +109,18 @@ class UserController extends AbstractController
             ['form' => $form, 'user' => $user]
         );
     }
+
+    #[Route('/users/{id}/delete', name: 'user_delete', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN', message: "Espace réservé aux administrateurs.")]
+    public function deleteAction(
+        User $user,
+    ): RedirectResponse
+        {
+
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', "L’utilisateur " . $user->getUserIdentifier() . " a bien été supprimé.");
+            return $this->redirectToRoute('user_list', [], Response::HTTP_SEE_OTHER);
+        }
 }

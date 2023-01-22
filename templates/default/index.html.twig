@@ -5,11 +5,18 @@
 {% endblock %}
 
 {% block body %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="row text-center">
+            <a href="{{ path('user_list') }}" class="btn btn-success">Consulter la liste des utilisateurs de l'application.</a>
+        </div>
+    {% endif %}
+
     {% if is_granted('ROLE_USER') %}
         <div class="row text-center">
-            <a href="{{ path('task_list') }}" class="btn btn-primary">Consulter la liste des tâches.</a>
-            <a href="{{ path('task_list_todo') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
-            <a href="{{ path('task_list_done') }}" class="btn btn-info">Consulter la liste des tâches terminées</a>
+            <a href="{{ path('task_list') }}" class="btn btn-primary">Consulter la liste de vos tâches.</a>
+            <a href="{{ path('task_list_todo') }}" class="btn btn-info">Consulter la liste de vos tâches à faire</a>
+            <a href="{{ path('task_list_done') }}" class="btn btn-info">Consulter la liste de vos tâches terminées</a>
         </div>
         <div class="row text-center">
             <a href="{{ path('task_create') }}" class="btn btn-warning">Créer une nouvelle tâche</a>

@@ -36,7 +36,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 60, unique: true)]
     private string $email;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: Task::class)]
+    #[ORM\OneToMany(
+        mappedBy: 'user',
+        targetEntity: Task::class,
+        cascade: ["persist"],
+        orphanRemoval: true
+    )]
     private Collection $tasks;
 
     public function __construct()
@@ -143,7 +148,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->tasks->contains($task)) {
             $this->tasks->add($task);
-            $task->setUserId($this);
+            $task->setUser($this);
         }
 
         return $this;
@@ -153,8 +158,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->tasks->removeElement($task)) {
             // set the owning side to null (unless already changed)
-            if ($task->getUserId() === $this) {
-                $task->setUserId(null);
+            if ($task->getUser() === $this) {
+                $task->setUser(null);
             }
         }
 
