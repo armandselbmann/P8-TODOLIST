@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Repository\UserRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,6 +63,22 @@ class UserControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorTextContains('div.alert.alert-success', 'L\'utilisateur a bien été modifié');
+    }
+
+    /**
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function testDeleteUserByAdmin(): void
+    {
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $user = $userRepository->findOneByUsername('John');
+        $userId = $user->getId();
+        $this->client->request('GET', "/users/$userId/delete");
+
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertSelectorTextContains('div.alert.alert-success', "Superbe ! L’utilisateur " . $user->getUsername() . " a bien été supprimé.");
     }
 
 }
