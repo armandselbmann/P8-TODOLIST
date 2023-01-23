@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('ROLE_USER')]
 class TaskController extends AbstractController
 {
     public function __construct(private readonly EntityManagerInterface $entityManager)
@@ -26,7 +27,6 @@ class TaskController extends AbstractController
      * @return Response
      */
     #[Route('/tasks', name: 'task_list')]
-    #[IsGranted('ROLE_USER', message: "Espace réservé aux utilisateurs.")]
     public function listTasks(TaskRepository $taskRepository): Response
     {
         return $this->render(
@@ -44,7 +44,6 @@ class TaskController extends AbstractController
      * @return Response
      */
     #[Route('/tasks/done', name: 'task_list_done')]
-    #[IsGranted('ROLE_USER', message: "Espace réservé aux utilisateurs.")]
     public function listTasksDone(TaskRepository $taskRepository): Response
     {
         return $this->render(
@@ -65,7 +64,6 @@ class TaskController extends AbstractController
      * @return Response
      */
     #[Route('/tasks/todo', name: 'task_list_todo')]
-    #[IsGranted('ROLE_USER', message: "Espace réservé aux utilisateurs.")]
     public function listTaskTodo(TaskRepository $taskRepository): Response
     {
         return $this->render(
@@ -101,7 +99,6 @@ class TaskController extends AbstractController
      * @return RedirectResponse|Response
      */
     #[Route('/tasks/create', name: 'task_create')]
-    #[IsGranted('ROLE_USER', message: "Espace réservé aux utilisateurs.")]
     public function createAction(Request $request): RedirectResponse|Response
     {
         $task = new Task();
@@ -138,7 +135,7 @@ class TaskController extends AbstractController
         Security $security
     ): RedirectResponse|Response {
 
-        if ($security->isGranted('ROLE_USER')) {
+        if ($security->isGranted('ROLE_USER') && !$security->isGranted('ROLE_ADMIN')) {
             if ($task->getUser() !== $this->getUser()) {
                 $this->addFlash('error', 'Vous ne pouvez pas modifier cette tâche.');
                 return $this->redirectToRoute('homepage', [], Response::HTTP_SEE_OTHER);
@@ -159,7 +156,11 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
             $this->addFlash('success', 'La tâche a bien été modifiée.');
-            return $this->redirectToRoute('task_manage');
+
+            if ($task->getUser() !== $this->getUser()) {
+                return $this->redirectToRoute('task_manage');
+            }
+            return $this->redirectToRoute('task_list');
         }
 
         return $this->render(
@@ -176,7 +177,6 @@ class TaskController extends AbstractController
      * @return RedirectResponse
      */
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
-    #[IsGranted('ROLE_USER', message: "Espace réservé aux utilisateurs.")]
     public function toggleTaskAction(Task $task): RedirectResponse
     {
         if ($task->getUser() !== $this->getUser()) {
@@ -205,7 +205,7 @@ class TaskController extends AbstractController
     public function deleteTaskAction(Task $task, Security $security): RedirectResponse
     {
 
-        if ($security->isGranted('ROLE_USER')) {
+        if ($security->isGranted('ROLE_USER') && !$security->isGranted('ROLE_ADMIN')) {
             if ($task->getUser() !== $this->getUser()) {
                 $this->addFlash('error', 'Vous ne pouvez pas supprimer cette tâche.');
                 return $this->redirectToRoute('homepage', [], Response::HTTP_SEE_OTHER);
@@ -223,6 +223,10 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        return $this->redirectToRoute('task_manage');
+        if ($task->getUser() !== $this->getUser()) {
+            return $this->redirectToRoute('task_manage');
+        }
+        return $this->redirectToRoute('task_list');
+
     }
 }
