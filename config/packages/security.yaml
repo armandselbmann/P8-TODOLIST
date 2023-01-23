@@ -28,13 +28,10 @@ security:
             logout:
                 path: logout
 
-    access_control:
-         - { path: ^/tasks, roles: ROLE_ADMIN }
-         - { path: ^/tasks, roles: ROLE_USER }
+    #access_control:
 
-    #role_hierarchy:
-    #    ROLE_USER:
-    #    ROLE_ADMIN:
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
 
 when@test:
