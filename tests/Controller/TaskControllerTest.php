@@ -147,14 +147,41 @@ class TaskControllerTest extends WebTestCase
     public function testTaskToggleIsDone(): void
     {
         $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $task = $taskRepository->findBy(array('user' => '1', 'isDone' => '1'), array(), 1);
+        $task = $taskRepository->findBy(array('user' => '1', 'isDone' => '0'), array(), 1);
         $task = $taskRepository->find($task[0]->getId());
         $taskId = $task->getId();
+        $taskTitle = $task->getTitle();
         $taskStatusBefore = $task->isDone();
         $this->client->request('GET', "/tasks/$taskId/toggle");
         $taskStatusAfter = $task->isDone();
 
         $this->assertNotSame($taskStatusBefore, $taskStatusAfter);
+        $this->assertSelectorTextContains(
+            'div.alert.alert-success',
+            "Superbe ! La tâche $taskTitle a bien été marquée comme faite."
+        );
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function testTaskToggleIsToDo(): void
+    {
+        $taskRepository = static::getContainer()->get(TaskRepository::class);
+        $task = $taskRepository->findBy(array('user' => '1', 'isDone' => '1'), array(), 1);
+        $task = $taskRepository->find($task[0]->getId());
+        $taskId = $task->getId();
+        $taskTitle = $task->getTitle();
+        $taskStatusBefore = $task->isDone();
+        $this->client->request('GET', "/tasks/$taskId/toggle");
+        $taskStatusAfter = $task->isDone();
+
+        $this->assertNotSame($taskStatusBefore, $taskStatusAfter);
+        $this->assertSelectorTextContains(
+            'div.alert.alert-danger',
+            "Oops ! La tâche $taskTitle a bien été marquée comme non terminée."
+        );
     }
 
     /**
