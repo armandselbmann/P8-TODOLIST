@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="alert alert-dismissible alert-danger">
+            <h1>Erreur 500 - Internal Server Error</h1>
+
+            <p>
+                Le serveur a rencontré un problème inattendu.
+                Veuillez nous en excuser.
+                Retour vers la <a href="{{ path('homepage') }}">page d'accueil</a>.
+            </p>
+        </div>
+    </div>
+
+{% endblock %}
