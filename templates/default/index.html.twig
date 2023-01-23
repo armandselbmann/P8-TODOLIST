@@ -18,7 +18,12 @@
 
     {% if is_granted('ROLE_ADMIN') %}
         <div class="row m-3">
-            <a href="{{ path('user_list') }}" class="btn btn-dark ">Consulter la liste des utilisateurs de l'application</a>
+            <div class="col text-center">
+                <a href="{{ path('user_list') }}" class="btn btn-dark ">Consulter la liste des utilisateurs de l'application</a>
+            </div>
+            <div class="col text-center">
+                <a href="{{ path('task_manage') }}" class="btn btn-dark ">Consulter la liste des tâches de l'application</a>
+            </div>
         </div>
     {% endif %}
 
