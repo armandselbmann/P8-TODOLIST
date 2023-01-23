@@ -125,11 +125,11 @@ class TaskControllerTest extends WebTestCase
     public function testTaskEditIsProhibitedForThisUser(): void
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneByUsername('jane');
+        $testUser = $userRepository->findOneByUsername('lolo');
         $this->client->loginUser($testUser);
 
         $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $task = $taskRepository->findBy(array('user' => '1', 'isDone' => '1'), array(), 1);
+        $task = $taskRepository->findBy(array('user' => '2', 'isDone' => '1'), array(), 1);
         $task = $taskRepository->find($task[0]->getId());
         $taskId = $task->getId();
         $this->client->request('GET', "/tasks/$taskId/edit");
@@ -164,11 +164,11 @@ class TaskControllerTest extends WebTestCase
     public function testTaskToggleIsProhibitedForThisUser(): void
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneByUsername('jane');
+        $testUser = $userRepository->findOneByUsername('lolo');
         $this->client->loginUser($testUser);
 
         $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $task = $taskRepository->findBy(array('user' => '1', 'isDone' => '1'), array(), 1);
+        $task = $taskRepository->findBy(array('user' => '2', 'isDone' => '1'), array(), 1);
         $task = $taskRepository->find($task[0]->getId());
         $taskId = $task->getId();
         $taskStatusBefore = $task->isDone();
@@ -204,11 +204,11 @@ class TaskControllerTest extends WebTestCase
     public function testTaskDeleteIsProhibitedForThisUser(): void
     {
         $userRepository = static::getContainer()->get(UserRepository::class);
-        $testUser = $userRepository->findOneByUsername('jane');
+        $testUser = $userRepository->findOneByUsername('lolo');
         $this->client->loginUser($testUser);
 
         $taskRepository = static::getContainer()->get(TaskRepository::class);
-        $task = $taskRepository->findBy(array('user' => '1'), array(), 1);
+        $task = $taskRepository->findBy(array('user' => '2'), array(), 1);
         $taskId = $task[0]->getId();
         $this->client->request('GET', "/tasks/$taskId/delete");
 
