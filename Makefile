@@ -69,6 +69,29 @@ allusers: ## Select * FROM user
 alltasks: ## Select * FROM task
 	$(PHPUSERCONNECT) bin/console dbal:run-sql 'SELECT * FROM task'
 
+
+##
+## Reset Test Database
+## --------------------
+resetTestDatabase: dropTestDatabase updateTestDatabase addFixturesTestDatabase
+dropTestDatabase: ## Drop test Database
+	$(PHPUSERCONNECT) bin/console --env=test doctrine:schema:drop --force
+updateTestDatabase: ## Update test Database
+	$(PHPUSERCONNECT) bin/console --env=test doctrine:schema:update --force
+addFixturesTestDatabase: ## Add fixtures on test Database
+	$(PHPUSERCONNECT) bin/console --env=test doctrine:fixtures:load --no-interaction
+
+##
+## Reset Test Database
+## --------------------
+resetDatabase: dropDatabase updateDatabase addFixturesDatabase
+dropDatabase: ## Drop Database
+	$(PHPUSERCONNECT) bin/console doctrine:schema:drop --force
+updateDatabase: ## Update test Database
+	$(PHPUSERCONNECT) bin/console doctrine:schema:update --force
+addFixturesDatabase: ## Add fixtures on Database
+	$(PHPUSERCONNECT) bin/console doctrine:fixtures:load --no-interaction
+
 ##
 
 .DEFAULT_GOAL := help

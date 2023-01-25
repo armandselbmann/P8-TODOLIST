@@ -7,7 +7,10 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testUserEntity()
+    /**
+     * @return void
+     */
+    public function testUserEntity(): void
     {
         $user = new User;
         $user->setUsername('lili');
@@ -16,7 +19,7 @@ class UserTest extends TestCase
         $user->setRoles(['ROLE_USER']);
 
 
-        $this->assertEquals('lili', $user->getUsername());
+        $this->assertEquals('lili', $user->getUserIdentifier());
         $this->assertEquals('lilipassword', $user->getPassword());
         $this->assertEquals('lili@test.com', $user->getEmail());
         $this->assertEquals(['ROLE_USER'], $user->getRoles());
