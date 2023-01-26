@@ -69,7 +69,6 @@ allusers: ## Select * FROM user
 alltasks: ## Select * FROM task
 	$(PHPUSERCONNECT) bin/console dbal:run-sql 'SELECT * FROM task'
 
-
 ##
 ## Reset Test Database
 ## --------------------
