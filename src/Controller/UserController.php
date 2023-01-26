@@ -110,6 +110,11 @@ class UserController extends AbstractController
         );
     }
 
+    /**
+     * @param User $user
+     *
+     * @return RedirectResponse
+     */
     #[Route('/users/{id}/delete', name: 'user_delete', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN', message: "Espace réservé aux administrateurs.")]
     public function deleteAction(

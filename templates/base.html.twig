@@ -34,7 +34,6 @@
                 {% if not app.user and 'login' != app.request.attributes.get('_route') %}
                     <a href="{{ path('login') }}" class="text-end btn btn-warning">Se connecter</a>
                 {% endif %}
-
             </div>
         </nav>
 
