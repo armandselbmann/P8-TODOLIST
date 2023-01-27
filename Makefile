@@ -43,15 +43,15 @@ runcoverage: ## Test Coverage
 ## PHP CodeSniffer
 ## --------------------
 sniffer:
-	$(PHPUSERCONNECT) vendor/bin/phpcs src/Controller
+	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src/Controller
 sniffer_default: ## Analyse DefaultController
-	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/DefaultController.php
+	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src/Controller/DefaultController.php
 sniffer_security: ## Analyse SecurityController
-	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/SecurityController.php
+	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src/Controller/SecurityController.php
 sniffer_task: ## Analyse TaskController
-	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/TaskController.php
+	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src/Controller/TaskController.php
 sniffer_user: ## Analyse UserController
-	$(PHPUSERCONNECT) vendor/bin/phpcs ./src/Controller/UserController.php
+	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src/Controller/UserController.php
 
 ##
 ## PHP Stan

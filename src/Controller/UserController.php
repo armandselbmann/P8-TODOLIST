@@ -19,9 +19,7 @@ class UserController extends AbstractController
     public function __construct(
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly EntityManagerInterface $entityManager
-    )
-    {
-
+    ) {
     }
 
     /**
@@ -75,7 +73,7 @@ class UserController extends AbstractController
 
     /**
      *
-     * @param User $user
+     * @param User    $user
      * @param Request $request
      *
      * @return RedirectResponse|Response
@@ -119,13 +117,12 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_ADMIN', message: "Espace réservé aux administrateurs.")]
     public function deleteAction(
         User $user,
-    ): RedirectResponse
-        {
+    ): RedirectResponse {
 
-            $this->entityManager->remove($user);
-            $this->entityManager->flush();
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
 
-            $this->addFlash('success', "L’utilisateur " . $user->getUserIdentifier() . " a bien été supprimé.");
-            return $this->redirectToRoute('user_list', [], Response::HTTP_SEE_OTHER);
-        }
+        $this->addFlash('success', "L’utilisateur " . $user->getUserIdentifier() . " a bien été supprimé.");
+        return $this->redirectToRoute('user_list', [], Response::HTTP_SEE_OTHER);
+    }
 }
