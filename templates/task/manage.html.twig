@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block header_img %}{% endblock %}
+
+{% block header_title %}<h1>Liste des tâches</h1>{% endblock %}
+
+{% block body %}
+    {% if tasks|length == 0 %}
+        <div class="alert alert-warning" role="alert">
+            Il n'y a pas encore de tâches enregistrées. <a href="{{ path('task_create') }}" class="btn btn-warning pull-right">Créer une tâche</a>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Contenu</th>
+                        <th class="text-center">Statut</th>
+                        <th class="text-center">Modification</th>
+                        <th class="text-center">Suppression</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in tasks %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ task.title }}</td>
+                            <td>
+                                {% if task.user == null %}
+                                    Anonyme
+                                {% else %}
+                                    {{ task.user.username }}
+                                {% endif %}
+                            </td>
+                            <td>{{ task.content }}</td>
+                            <td class="text-center">
+                                {% if task.isDone %}
+                                    Terminée
+                                {% else %}
+                                    En cours
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('task_edit', {'id' : task.id}) }}" class="btn btn-success btn-sm">Edit</a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('task_delete', {'id' : task.id}) }}"
+                                   class="btn btn-danger btn-sm" role="button"
+                                   onclick="return confirm('Voulez-vous vraiment supprimer cette tâche ?')"
+                                >Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
