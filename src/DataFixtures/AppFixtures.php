@@ -34,17 +34,17 @@ class AppFixtures extends Fixture
         // create 40 tasks
         for ($i = 0; $i < 40; $i++) {
             $task = new Task();
-            $task->setTitle('task '.$i);
-            $task->setContent('content '.$i);
+            $task->setTitle('task ' . $i);
+            $task->setContent('content ' . $i);
             $task->toggle(rand(0, 1));
-            $randInt = rand(0,2);
+            $randInt = rand(0, 2);
             if ($randInt == 1) {
                 $user = $user1;
             } elseif ($randInt == 2) {
                 $user = $user2;
-                } else {
-                    $user = null;
-                }
+            } else {
+                $user = null;
+            }
             $task->setUser($user);
             $manager->persist($task);
         }

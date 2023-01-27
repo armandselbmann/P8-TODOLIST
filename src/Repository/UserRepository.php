@@ -24,6 +24,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param User $entity
+     * @param bool $flush
+     *
+     * @return void
+     */
     public function add(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -33,6 +39,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
+    /**
+     * @param User $entity
+     * @param bool $flush
+     *
+     * @return void
+     */
     public function remove(User $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -45,7 +57,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      *
+     * @param PasswordAuthenticatedUserInterface $user
+     * @param string                             $newHashedPassword
      *
+     * @return void
      */
     public function upgradePassword(
         PasswordAuthenticatedUserInterface $user,
