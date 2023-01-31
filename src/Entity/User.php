@@ -26,7 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $username;
 
     #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    private mixed $roles = [];
 
     /**
      * @var string The hashed password
@@ -52,7 +52,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->tasks = new ArrayCollection();
     }
 
-
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -66,6 +68,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
+    /**
+     * @param  string $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -95,7 +101,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    /**
+     * @param  mixed $roles
+     * @return $this
+     */
+    public function setRoles(mixed $roles): self
     {
         $this->roles = $roles;
 
@@ -110,6 +120,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
+    /**
+     * @param  string $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -118,13 +132,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @param  mixed $email
+     * @return void
+     */
     public function setEmail(mixed $email): void
     {
         $this->email = $email;
@@ -147,6 +165,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->tasks;
     }
 
+    /**
+     * @param  Task $task
+     * @return $this
+     */
     public function addTask(Task $task): self
     {
         if (!$this->tasks->contains($task)) {
@@ -157,6 +179,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @param  Task $task
+     * @return $this
+     */
     public function removeTask(Task $task): self
     {
         if ($this->tasks->removeElement($task)) {

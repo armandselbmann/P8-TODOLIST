@@ -8,6 +8,9 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ *
+ */
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
@@ -39,56 +42,99 @@ class Task
         $this->isDone = false;
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @return DateTime
+     */
     public function getCreatedAt(): Datetime
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param DateTime $createdAt
+     *
+     * @return void
+     */
     public function setCreatedAt(datetime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     *
+     * @return void
+     */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
+    /**
+     * @return string
+     */
     public function getContent(): string
     {
         return $this->content;
     }
 
+    /**
+     * @param string $content
+     *
+     * @return void
+     */
     public function setContent(string $content): void
     {
         $this->content = $content;
     }
 
+    /**
+     * @return bool
+     */
     public function isDone(): bool
     {
         return $this->isDone;
     }
 
+    /**
+     * @param $flag
+     *
+     * @return void
+     */
     public function toggle($flag): void
     {
         $this->isDone = $flag;
     }
 
+    /**
+     * @return bool|null
+     */
     public function isIsDone(): ?bool
     {
         return $this->isDone;
     }
 
+    /**
+     * @param bool $isDone
+     *
+     * @return $this
+     */
     public function setIsDone(bool $isDone): self
     {
         $this->isDone = $isDone;
@@ -96,11 +142,19 @@ class Task
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
+    /**
+     * @param User|null $user
+     *
+     * @return $this
+     */
     public function setUser(?User $user): self
     {
         $this->user = $user;

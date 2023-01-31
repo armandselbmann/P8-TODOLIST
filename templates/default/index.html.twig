@@ -10,11 +10,9 @@
 
 {% block body %}
 
-    {% if not app.user %}
-        <div class="row m-3">
-            <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
-        </div>
-    {% endif %}
+    <div class="row m-3">
+        <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+    </div>
 
     {% if is_granted('ROLE_ADMIN') %}
         <div class="row m-3">
@@ -29,7 +27,7 @@
 
     {% if is_granted('ROLE_USER') %}
         <div class="row ms-3 me-3">
-            <a href="{{ path('task_list') }}" class="btn btn-primary mt-3">Consulter la liste de vos tâches</a>
+            <a href="{{ path('task_list') }}" class="btn btn-info mt-3">Consulter la liste de vos tâches</a>
             <a href="{{ path('task_list_todo') }}" class="btn btn-info mt-2">Consulter la liste de vos tâches à faire</a>
             <a href="{{ path('task_list_done') }}" class="btn btn-info mt-2">Consulter la liste de vos tâches terminées</a>
         </div>
