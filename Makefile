@@ -29,6 +29,18 @@ rootphp:## Connect on actif php container with root user
 	docker exec -it $$(docker container ps -q --filter "name=php") bash
 
 ##
+## Clear cache
+## --------------------
+clearallcache: cleardevcache clearprodcache cleartestcache
+
+cleardevcache:
+	$(PHPUSERCONNECT) bin/console --env=dev cache:clear
+clearprodcache:
+	$(PHPUSERCONNECT) bin/console --env=prod cache:clear
+cleartestcache:
+	$(PHPUSERCONNECT) bin/console --env=test cache:clear
+
+##
 ## PHP Unit
 ## --------------------
 test: resetTestDatabase runtest
