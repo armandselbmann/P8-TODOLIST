@@ -321,6 +321,31 @@ class TaskControllerTest extends WebTestCase
      * @return void
      * @throws Exception
      */
+    public function testTaskDeleteByAdmin(): void
+    {
+        $userRepository = static::getContainer()->get(UserRepository::class);
+        $testAdminUser = $userRepository->findOneByUsername('jane');
+        $this->client->loginUser($testAdminUser);
+
+        $taskRepository = static::getContainer()->get(TaskRepository::class);
+        $task = $taskRepository->findBy(array('user' => '2'), array(), 1);
+        $taskId = $task[0]->getId();
+        $this->client->request('GET', "/tasks/$taskId/delete");
+
+        $this->assertSelectorTextContains(
+            'div.alert.alert-success',
+            'La tâche a bien été supprimée.'
+        );
+        $this->assertSelectorTextContains(
+            'h2',
+            'Liste de l\'ensemble de vos tâches'
+        );
+    }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function testTaskDeleteIsProhibitedForThisUser(): void
     {
         $userRepository = static::getContainer()->get(UserRepository::class);

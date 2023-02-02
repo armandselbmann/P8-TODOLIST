@@ -55,7 +55,7 @@ runcoverage: ## Test Coverage
 ## PHP CodeSniffer
 ## --------------------
 sniffer:
-	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src/Controller
+	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src
 sniffer_default: ## Analyse DefaultController
 	$(PHPUSERCONNECT) vendor/bin/phpcs --standard=PSR12 src/Controller/DefaultController.php
 sniffer_security: ## Analyse SecurityController

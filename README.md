@@ -25,7 +25,7 @@ HTTPS :
 https://github.com/armandselbmann/P8-TODOLIST.git
 ```
 
-### 2/ Docker Set up and init Databases
+### 2/ Docker setup and init Databases
 Run your Docker desktop and run the following command on the root of your cloning folder.<br/>
 This will launch you the Docker containers, create and set up the databases for application and tests, and create an initial dataset in each. <br/>
 ```
@@ -72,6 +72,6 @@ password : jane
 ```
 
 # You want to contribute in this project !
-You will find documentation at the root of the project: <strong>contrib.md</strong> <br/>
+You will find [documentation](contributing.md) at the root of the project.<br/>
 This contains all the procedure and details for setting up the project and integrate the TodoList & Co team. <br/>
 See you soon !
